@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Network Scanner Dashboard</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .scan-btn { padding: 10px 15px; background: #4CAF50; color: white; border: none; cursor: pointer; }
+        .scan-btn:hover { background: #45a049; }
+        .form-group { margin-bottom: 15px; }
+        .progress-container { margin: 20px 0; }
+        .progress-bar { width: 100%; background-color: #ddd; }
+        .progress { height: 20px; background-color: #4CAF50; width: 0%; }
+    </style>
+</head>
+<body>
+    <h1>Network Scanner Dashboard</h1>
+    
+    <form method="POST">
+        <div class="form-group">
+            <label for="ip_range">IP Range:</label>
+            <input type="text" id="ip_range" name="ip_range" value="192.168.1.0/24" required>
+        </div>
+        <button type="submit" class="scan-btn">Start Scan</button>
+    </form>
+
+    {% if results %}
+    <h2>Scan Results</h2>
+    <table>
+        <tr>
+            <th>IP Address</th>
+            <th>Hostname</th>
+            <th>Status</th>
+            <th>Operating System</th>
+            <th>Open Ports</th>
+        </tr>
+        {% for device in results %}
+        <tr>
+            <td>{{ device.ip }}</td>
+            <td>{{ device.hostname }}</td>
+            <td>{{ device.status }}</td>
+            <td>{{ device.os }}</td>
+            <td>{{ device.ports }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+</body>
+</html>

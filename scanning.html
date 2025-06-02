@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Scanning Network</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+        .progress-container { width: 50%; margin: 20px auto; }
+        .progress-bar { width: 100%; background-color: #ddd; }
+        .progress { height: 30px; background-color: #4CAF50; width: 0%; text-align: center; line-height: 30px; color: white; }
+    </style>
+    <script>
+        function checkStatus() {
+            fetch('/status')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('progress').style.width = data.progress + '%';
+                    document.getElementById('progress').innerText = data.progress + '%';
+                    
+                    if (!data.scanning && data.results_available) {
+                        window.location.href = '/results';
+                    } else if (!data.scanning) {
+                        window.location.href = '/';
+                    } else {
+                        setTimeout(checkStatus, 1000);
+                    }
+                });
+        }
+        
+        window.onload = function() {
+            checkStatus();
+        };
+    </script>
+</head>
+<body>
+    <h1>Scanning Network...</h1>
+    <div class="progress-container">
+        <div id="progress" class="progress">0%</div>
+    </div>
+    <p>Please wait while we scan your network. This may take several minutes.</p>
+</body>
+</html>
